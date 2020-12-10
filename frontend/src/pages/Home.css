@@ -1,0 +1,18 @@
+@import "~antd/dist/antd.css";
+
+.home {
+  text-align: center;
+  background-image: url("../asset/snow.jpg");
+}
+
+.home-img {
+  width: 40%;
+  height: 40%;
+}
+
+.home-search {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
