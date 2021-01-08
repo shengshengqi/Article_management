@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import "./Home.css";
-import { Input, Upload, message, Modal, Button, Tooltip } from "antd";
+import { Input, Upload, message, Button, Tooltip, Col, Row } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
-import Login from "../components/Login";
+import Login from "../components/RLogin";
+import { data } from "../temp/fakenews";
+import LCard from "../components/LCard";
 
 const { Search } = Input;
+
 const props = {
   name: "file",
   action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
@@ -28,7 +31,7 @@ function Home() {
   return (
     <div className="home">
       <img className="home-img" src="history.png" alt="history"></img>
-      <MModal />
+      <Login />
       <div className="home-search">
         <Search
           placeholder="input search text"
@@ -42,40 +45,21 @@ function Home() {
           </Tooltip>
         </Upload>
       </div>
+      <div className="site-card-wrapper home-card">
+        <Row gutter={16}>
+          <Col span={8}>
+            <LCard title="最新消息" data={data}></LCard>
+          </Col>
+          <Col span={8}>
+            <LCard title="精品推荐" data={data}></LCard>
+          </Col>
+          <Col span={8}>
+            <LCard title="专题知识库" data={data}></LCard>
+          </Col>
+        </Row>
+      </div>
     </div>
   );
 }
-
-const MModal = () => {
-  const [isModalVisible, setIsModalVisible] = useState(false);
-
-  const showModal = () => {
-    setIsModalVisible(true);
-  };
-
-  const handleOk = () => {
-    setIsModalVisible(false);
-  };
-
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
-
-  return (
-    <>
-      <Button type="default" onClick={showModal}>
-        login
-      </Button>
-      <Modal
-        title="login"
-        visible={isModalVisible}
-        onOk={handleOk}
-        onCancel={handleCancel}
-      >
-        <Login />
-      </Modal>
-    </>
-  );
-};
 
 export default Home;
