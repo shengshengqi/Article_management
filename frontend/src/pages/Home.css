@@ -2,6 +2,7 @@
 
 .home {
   text-align: center;
+  margin: 20px;
 }
 
 .home-img {
@@ -17,5 +18,6 @@
 }
 
 .home-card {
-  margin: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
 }

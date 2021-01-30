@@ -11,12 +11,8 @@ const layout = {
 };
 
 function Register(prop: any) {
-  const onFinish = (values: any) => {
-    console.log("注册", values);
-  };
-
   return (
-    <Form {...layout} form={prop.form} onFinish={onFinish}>
+    <Form {...layout} form={prop.form} onFinish={prop.onFinish}>
       <Form.Item
         name="username"
         label="账号"

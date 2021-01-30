@@ -2,9 +2,9 @@ import React from "react";
 import "./Home.css";
 import { Input, Upload, message, Button, Tooltip, Col, Row } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
-import Login from "../components/RLogin";
+import Login from "../components/RegisterAndLogin/index";
 import { data } from "../temp/fakenews";
-import LCard from "../components/LCard";
+import Card from "../components/Card";
 
 const { Search } = Input;
 
@@ -48,13 +48,13 @@ function Home() {
       <div className="site-card-wrapper home-card">
         <Row gutter={16}>
           <Col span={8}>
-            <LCard title="最新消息" data={data}></LCard>
+            <Card title="最新消息" data={data}></Card>
           </Col>
           <Col span={8}>
-            <LCard title="精品推荐" data={data}></LCard>
+            <Card title="精品推荐" data={data}></Card>
           </Col>
           <Col span={8}>
-            <LCard title="专题知识库" data={data}></LCard>
+            <Card title="专题知识库" data={data}></Card>
           </Col>
         </Row>
       </div>

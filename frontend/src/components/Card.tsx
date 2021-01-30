@@ -13,7 +13,8 @@ function LCard(props: any) {
           onChange: (page) => {
             console.log(page);
           },
-          pageSize: 4,
+          // pageSize: 4,
+          responsive: true,
           simple: true,
         }}
         renderItem={(item: String) => (
