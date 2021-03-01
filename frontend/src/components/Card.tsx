@@ -18,7 +18,7 @@ function LCard(props: any) {
           simple: true,
         }}
         renderItem={(item: String) => (
-          <List.Item>
+          <List.Item actions={props.actions}>
             <List.Item.Meta
               title={
                 <a href="https://ant.design">
