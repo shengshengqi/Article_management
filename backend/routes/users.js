@@ -4,21 +4,30 @@ var sql = require("../conf/mysql.js");
 
 //登录验证
 router.get("/login", function (req, res) {
+  var username = req.query.username;
+  var password = req.query.password;
   sql.query(
-    'select username = "' + req.username + '" from Users',
+    'select * from Users where username = "' + username + '"',
     function (err, result) {
       if (err) {
         res.send({
           code: 0,
-          info: "该用户不存在",
+          info: "登录出现错误",
         });
       } else {
-        if (req.password == result.password) {
-          res.send("登陆成功");
+        if (result.length !== 0) {
+          //判断返回为空方法一
+          if (password == result[0].password) {
+            res.send("登陆成功");
+          } else {
+            res.send("密码错误");
+          }
         } else {
-          res.send("密码错误");
+          res.send({
+            code: 0,
+            info: "该用户不存在",
+          });
         }
-        //   res.send(JSON.stringify(result));
         console.log(result);
       }
     }
@@ -27,31 +36,39 @@ router.get("/login", function (req, res) {
 
 // 增加用户
 router.get("/register", function (req, res) {
+  var username = req.query.username;
+  var password = req.query.password;
   sql.query(
-    'select username = "' + req.username + '" from Users',
+    'select * from Users where username = "' + username + '"',
     function (err, result) {
       if (err) {
-        sql.query(
-          'INSERT INTO Users (username, password) VALUES ("' +
-            req.username +
-            '", "' +
-            req.password +
-            '")',
-          function (err) {
-            if (err) {
-              res.send({
-                code: 0,
-                info: "注册失败",
-              });
-            } else {
-              res.send("注册成功");
-            }
-          }
-        );
+        res.send({
+          code: 0,
+          info: "注册出现错误",
+        });
       } else {
-        res.send("用户名已存在");
-        //   res.send(JSON.stringify(result));
-        console.log(result);
+        if (JSON.stringify(result) !== "[]") {
+          //判断放回为空方法二
+          res.send("用户名已存在");
+        } else {
+          sql.query(
+            'INSERT INTO Users (username, password,isAdmin) VALUES ("' +
+              username +
+              '", "' +
+              password +
+              '","否")',
+            function (err) {
+              if (err) {
+                res.send({
+                  code: 0,
+                  info: "注册失败",
+                });
+              } else {
+                res.send("注册成功");
+              }
+            }
+          );
+        }
       }
     }
   );
@@ -60,7 +77,7 @@ router.get("/register", function (req, res) {
 //判断是否是管理员
 router.get("/isAdmin", function (req, res) {
   sql.query(
-    'select username = "' + req.username + '" from Users',
+    'select * from Users where username = "' + req.query.username + '"',
     function (err, result) {
       if (err) {
         res.send({
@@ -68,7 +85,7 @@ router.get("/isAdmin", function (req, res) {
           info: "出现位置错误",
         });
       } else {
-        res.send(req.isAdmin);
+        res.send(result[0].isAdmin);
         console.log(result);
       }
     }

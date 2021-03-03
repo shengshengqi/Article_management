@@ -24,8 +24,8 @@ app.all("*", function (req, res, next) {
 //app.set('view engine', 'jade');
 
 //让页面变成ejs模板,这个要看前端页面用什么，到时候不能忘了改啊
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "ejs");
+// app.set("views", path.join(__dirname, "views"));
+// app.set("view engine", "ejs");
 
 // app.use(logger("dev"));
 app.use(express.json());
