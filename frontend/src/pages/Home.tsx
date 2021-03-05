@@ -1,9 +1,7 @@
 import React from "react";
 import "./Home.css";
-import { Input, message, Col, Row } from "antd";
+import { Input } from "antd";
 import Login from "../components/RegisterAndLogin/index";
-import { data } from "../temp/fakenews";
-import Card from "../components/Card";
 
 const { Search } = Input;
 
