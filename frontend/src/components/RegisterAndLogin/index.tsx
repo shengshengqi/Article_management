@@ -45,10 +45,10 @@ function RLogin() {
   return (
     <>
       {!isHandleOK ? (
-        <Button type="default" onClick={showModal} size="small">
-          Login
-        </Button>
+        // <Button type="dashed" onClick={showModal} size="small"  className="loginTrigger">
+        <div className="loginTrigger" onClick={showModal}>Login</div>
       ) : (
+        // </Button>
         <Bdropdown name={userName}></Bdropdown>
       )}
       <Modal visible={isModalVisible} onCancel={handleCancel} onOk={handleOk}>

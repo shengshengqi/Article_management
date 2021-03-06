@@ -1,10 +1,8 @@
 body {
   /* overflow-y: hidden; */
-  background-size: cover;
-  background-image: url("./asset/1.jpg");
 }
 
+
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }

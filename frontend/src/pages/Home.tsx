@@ -9,19 +9,18 @@ const onSearch = (value: any) => console.log(value);
 
 function Home() {
   return (
-    <div className="home">
-      <div>
-        <img className="home-img" src="history.png" alt="history"></img>
-        <Login />
+    <div className="container">
+      <div className="home-container">
+        <div className="home-action">
+          {/* <img className="home-action__img" src="history.png" alt="history"></img> */}
+          <span className="home-action__title">History</span>
+          <Login />
+        </div>
+        <div className="home-search">
+          <Search placeholder="input search text" onSearch={onSearch} enterButton />
+        </div>
       </div>
-      <div className="home-search">
-        <Search
-          placeholder="input search text"
-          style={{ width: 500 }}
-          onSearch={onSearch}
-          enterButton
-        />
-      </div>
+
       {/* <div className="site-card-wrapper home-card">
         <Row gutter={16}>
           <Col span={8}>

@@ -1,1 +1,26 @@
 @import "~antd/dist/antd.css";
+
+.loginTrigger {
+  display: inline-block;
+  border: none;
+  outline: none;
+
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 3px 12px 6px 12px;
+
+  transition: all 0.3s;
+
+  box-shadow: inset 2px 1px 9px rgb(100 100 100 / 70%);
+
+  border-radius: 6px;
+
+  cursor: pointer;
+
+  flex-shrink: 0;
+  /* font-size: 1.5rem;
+  height: 1.6rem; */
+}
+
+.loginTrigger:hover {
+  box-shadow: inset 2px 1px 3px rgb(100 100 100 / 70%), 2px 1px 12px rgb(255 255 255 / 90%);
+}

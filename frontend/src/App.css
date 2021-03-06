@@ -1,3 +1,27 @@
 .app {
+  position: relative;
   /* background-image: url("./asset/snow.jpg"); */
+}
+
+.container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.app-bg {
+  top: 0;
+  left: 0;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background-size: cover;
+  background-image: url("./asset/1.jpg");
+  pointer-events: none;
+  z-index: -1;
+
+  filter: blur(5px);
+  transform: scale(1.05);
 }
