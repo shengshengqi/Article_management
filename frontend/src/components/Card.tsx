@@ -2,7 +2,7 @@ import React from "react";
 import { List, Pagination } from "antd";
 import { Link } from "react-router-dom";
 
-import './Card.css'
+import "./Card.css";
 
 function LCard(props: any) {
   return (
@@ -33,7 +33,11 @@ function LCard(props: any) {
           </List.Item>
         )}
       />
-      <Pagination defaultCurrent={1} total={50} className="card-pagination"/>
+      {/* <Pagination
+        defaultCurrent={1}
+        total={props.data.length}
+        className="card-pagination"
+      /> */}
     </div>
     // </Card>
   );

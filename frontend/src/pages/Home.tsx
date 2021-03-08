@@ -12,12 +12,15 @@ function Home() {
     <div className="container">
       <div className="home-container">
         <div className="home-action">
-          {/* <img className="home-action__img" src="history.png" alt="history"></img> */}
           <span className="home-action__title">History</span>
           <Login />
         </div>
         <div className="home-search">
-          <Search placeholder="input search text" onSearch={onSearch} enterButton />
+          <Search
+            placeholder="input search text"
+            onSearch={onSearch}
+            enterButton
+          />
         </div>
       </div>
 
