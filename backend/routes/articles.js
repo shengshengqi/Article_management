@@ -16,16 +16,41 @@ router.post("/uploding_article", function (req, res) {
       '")',
     function (err, result) {
       if (err) {
-        res.send({
-          code: 0,
-          info: "文章存储失败",
-        });
+        res.send("文章存储失败");
       } else {
         res.send({
           code: 200,
         });
-        //   res.send(JSON.stringify(result));
-        // console.log(result);
+      }
+    }
+  );
+});
+
+//删除文章
+router.get("/delete_article", function (req, res) {
+  sql.query(
+    'DELETE FROM Articles WHERE id="' + req.query.id + '"',
+    function (err, result) {
+      if (err) {
+        res.send("文章删除失败");
+      } else {
+        res.send({
+          code: 200,
+        });
+      }
+    }
+  );
+});
+
+//获取文章列表
+router.get("/list", function (req, res) {
+  sql.query(
+    'SELECT * FROM Articles where uid = "' + req.query.id + '"',
+    function (err, result) {
+      if (err) {
+        res.send("文章数据获取失败");
+      } else {
+        res.send(result);
       }
     }
   );

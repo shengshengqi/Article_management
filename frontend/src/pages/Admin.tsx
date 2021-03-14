@@ -2,15 +2,22 @@ import React from "react";
 import { Button } from "antd";
 // import Card from "../components/Card";
 import { List } from "antd";
-import { Link } from "react-router-dom";
-import { data } from "../temp/fakenews";
 import Upload from "../components/Upload";
+import request from "../axios/index";
+import { conf } from "../axios/conf";
 import "./Admin.css";
 
 class Admin extends React.Component {
   state = {
     current: "",
+    data: [],
   };
+
+  componentDidMount() {
+    request.get(conf.article_list, { id: 1 }).then((res: any) => {
+      this.setState({ data: res.data });
+    });
+  }
 
   handleClick = (e: any) => {
     console.log("click ", e);
@@ -23,7 +30,7 @@ class Admin extends React.Component {
         <List
           className="card-list"
           itemLayout="horizontal"
-          dataSource={data}
+          dataSource={this.state.data}
           header={
             <b>
               {
@@ -34,16 +41,12 @@ class Admin extends React.Component {
               }
             </b>
           }
-          renderItem={(item: String) => (
+          renderItem={(item: any) => (
             <List.Item actions={[<Button>删除</Button>]}>
               <List.Item.Meta
                 title={
-                  <a href="https://ant.design">
-                    {
-                      <Link to="/Article" style={{ color: "black" }}>
-                        {item}
-                      </Link>
-                    }
+                  <a href={item.address} target="_blank">
+                    {item.articleName}
                   </a>
                 }
               />

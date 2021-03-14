@@ -6,6 +6,7 @@ var sql = require("../conf/mysql.js");
 router.get("/login", function (req, res) {
   var username = req.query.username;
   var password = req.query.password;
+  console.log(username, password);
   sql.query(
     'select * from Users where username = "' + username + '"',
     function (err, result) {
@@ -23,10 +24,7 @@ router.get("/login", function (req, res) {
             res.send("密码错误");
           }
         } else {
-          res.send({
-            code: 0,
-            info: "该用户不存在",
-          });
+          res.send("该用户不存在,请先注册");
         }
         console.log(result);
       }
@@ -49,7 +47,7 @@ router.get("/register", function (req, res) {
       } else {
         if (JSON.stringify(result) !== "[]") {
           //判断放回为空方法二
-          res.send("用户名已存在");
+          res.send("用户名已存在，请直接登录");
         } else {
           sql.query(
             'INSERT INTO Users (username, password,isAdmin) VALUES ("' +
@@ -59,10 +57,7 @@ router.get("/register", function (req, res) {
               '","否")',
             function (err) {
               if (err) {
-                res.send({
-                  code: 0,
-                  info: "注册失败",
-                });
+                res.send("注册失败");
               } else {
                 res.send("注册成功");
               }

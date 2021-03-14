@@ -38,7 +38,7 @@ function Register(prop: any) {
         <Input.Password />
       </Form.Item>
       <Form.Item
-        name="Confirm Password"
+        name="ConfirmPassword"
         label="确认密码"
         dependencies={["password"]}
         hasFeedback
