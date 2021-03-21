@@ -1,7 +1,7 @@
 export const conf = {
   login: "/users/login",
   register: "/users/register",
-  isAdmin: "/users/isAdmin",
+  // isAdmin: "/users/isAdmin",
   uploding_image: "/images/uploding_image",
   uploding_article: "/articles/uploding_article",
   find_article: "/articles/find_article",

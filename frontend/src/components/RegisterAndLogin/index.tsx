@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Modal, Tabs } from "antd";
 import "./index.css";
 import Register from "./Register";
@@ -8,12 +8,36 @@ import request from "../../axios/index";
 import { conf } from "../../axios/conf";
 
 const { TabPane } = Tabs;
+const data = (function () {
+  const item = localStorage.getItem("userData");
+  if (item !== null) {
+    return JSON.parse(item);
+  } else {
+    return item;
+  }
+})();
+console.log(data);
+
+const getAdmin = () => {
+  if (data !== null) {
+    return data.isAdmin === "是";
+  } else {
+    return false;
+  }
+};
+const getUserName = () => {
+  if (data !== null) {
+    return data.username.substr(0, 1);
+  } else {
+    return " ";
+  }
+};
 
 function RLogin() {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [tabKey, setTabKey] = useState("1");
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [userName, setUserName] = useState(" ");
+  const [isAdmin, setIsAdmin] = useState(getAdmin());
+  const [userName, setUserName] = useState(getUserName());
   const [loginForm] = Form.useForm();
   const [registerForm] = Form.useForm();
 
@@ -38,38 +62,35 @@ function RLogin() {
     setIsModalVisible(false);
   };
 
+  const exit = () => {
+    localStorage.clear();
+    setIsAdmin(false);
+    setUserName(" ");
+  };
+
   const onFinish = (values: any) => {
+    const confirmPassword = values.ConfirmPassword;
+    const password = values.password;
+    const username = values.username;
     var url;
     if (tabKey === "1") {
       url = conf.login;
     } else {
       url = conf.register;
     }
-    if (
-      !values.ConfirmPassword ||
-      (values.ConfirmPassword && values.ConfirmPassword === values.password)
-    )
+    if (!confirmPassword || (confirmPassword && confirmPassword === password))
       request
         .get(url, {
-          username: values.username,
-          password: values.password,
+          username: username,
+          password: password,
         })
         .then((res: any) => {
-          if (res.data === "登陆成功" || res.data === "注册成功") {
-            setUserName(values.username.substr(0, 1));
-            request
-              .get(conf.isAdmin, {
-                username: values.username,
-                password: values.password,
-              })
-              .then((res: any) => {
-                if (res.data === "是") {
-                  setIsAdmin(true);
-                }
-              })
-              .catch((err) => {
-                console.log(err);
-              });
+          if (res.data.msg === "登录成功" || res.data.msg === "注册成功") {
+            setUserName(username.substr(0, 1));
+            localStorage.setItem("userData", JSON.stringify(res.data.data));
+            if (res.data.data.isAdmin === "是") {
+              setIsAdmin(true);
+            }
           } else {
             alert(res.data);
           }
@@ -86,7 +107,7 @@ function RLogin() {
           Login
         </div>
       ) : (
-        <Bdropdown name={userName} isAdmin={isAdmin}></Bdropdown>
+        <Bdropdown name={userName} isAdmin={isAdmin} exit={exit}></Bdropdown>
       )}
       <Modal visible={isModalVisible} onCancel={handleCancel} onOk={handleOk}>
         <Tabs defaultActiveKey="1" onChange={callback}>

@@ -1,7 +1,7 @@
 import React from "react";
 import { Menu, Dropdown, Button } from "antd";
 
-const DropMenu = (isAdmin: Boolean) => {
+const DropMenu = (isAdmin: Boolean, exit: any) => {
   return (
     <Menu>
       {isAdmin && (
@@ -11,22 +11,17 @@ const DropMenu = (isAdmin: Boolean) => {
           </a>
         </Menu.Item>
       )}
-      <Menu.Item>
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="http://www.tmall.com/"
-        >
-          退出登录
-        </a>
-      </Menu.Item>
+      <Menu.Item onClick={exit}>退出登录</Menu.Item>
     </Menu>
   );
 };
 
 const Bdropdown = (prop: any) => {
   return (
-    <Dropdown overlay={DropMenu(prop.isAdmin)} placement="bottomCenter">
+    <Dropdown
+      overlay={DropMenu(prop.isAdmin, prop.exit)}
+      placement="bottomCenter"
+    >
       <Button type="default" size="small" shape="circle">
         {prop.name}
       </Button>

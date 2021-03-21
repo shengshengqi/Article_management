@@ -14,9 +14,16 @@ class Admin extends React.Component {
   };
 
   componentDidMount() {
-    request.get(conf.article_list, { id: 1 }).then((res: any) => {
-      this.setState({ data: res.data });
-    });
+    const item = localStorage.getItem("userData");
+    if (item !== null) {
+      request
+        .get(conf.article_list, { id: JSON.parse(item).uid })
+        .then((res: any) => {
+          this.setState({ data: res.data });
+        });
+    } else {
+      alert("请先登录");
+    }
   }
 
   handleClick = (e: any) => {

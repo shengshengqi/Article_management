@@ -19,7 +19,10 @@ router.get("/login", function (req, res) {
         if (result.length !== 0) {
           //判断返回为空方法一
           if (password == result[0].password) {
-            res.send("登陆成功");
+            res.send({
+              data: result[0],
+              msg: "登录成功",
+            });
           } else {
             res.send("密码错误");
           }
@@ -70,21 +73,21 @@ router.get("/register", function (req, res) {
 });
 
 //判断是否是管理员
-router.get("/isAdmin", function (req, res) {
-  sql.query(
-    'select * from Users where username = "' + req.query.username + '"',
-    function (err, result) {
-      if (err) {
-        res.send({
-          code: 0,
-          info: "出现位置错误",
-        });
-      } else {
-        res.send(result[0].isAdmin);
-        console.log(result);
-      }
-    }
-  );
-});
+// router.get("/isAdmin", function (req, res) {
+//   sql.query(
+//     'select * from Users where username = "' + req.query.username + '"',
+//     function (err, result) {
+//       if (err) {
+//         res.send({
+//           code: 0,
+//           info: "出现位置错误",
+//         });
+//       } else {
+//         res.send(result[0].isAdmin);
+//         console.log(result);
+//       }
+//     }
+//   );
+// });
 
 module.exports = router;
