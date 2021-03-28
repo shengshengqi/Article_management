@@ -1,13 +1,15 @@
 import React from "react";
 import "./Home.css";
-import { Input } from "antd";
+import { Button, Input } from "antd";
 import Login from "../components/RegisterAndLogin/index";
+import { ScanOutlined } from "@ant-design/icons";
 
 const { Search } = Input;
 
 const onSearch = (value: any) => console.log(value);
 
 function Home() {
+  const goToScan = () => {};
   return (
     <div className="container">
       <div className="home-container">
@@ -20,7 +22,16 @@ function Home() {
             placeholder="input search text"
             onSearch={onSearch}
             enterButton
+            style={{
+              width: "auto",
+              flex: 1,
+            }}
           />
+          <a rel="noopener noreferrer" href="/camera">
+            <Button onClick={goToScan}>
+              <ScanOutlined />
+            </Button>
+          </a>
         </div>
       </div>
 

@@ -44,6 +44,7 @@
 } */
 
 .home-search {
+  display: flex;
   margin-top: 16px;
   /* width: 40vw; */
   width: auto;

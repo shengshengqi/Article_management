@@ -28,6 +28,38 @@ app.all("*", function (req, res, next) {
 // app.set("view engine", "ejs");
 
 // app.use(logger("dev"));
+const multer = require("multer");
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    if (file.mimetype.indexOf("image") >= 0) {
+      cb(null, "./public/");
+    } else {
+      cb(null, "./uploads/");
+    }
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + "-" + file.originalname);
+  },
+});
+
+const upload = multer({ storage: storage });
+
+app.post("/upload", upload.single("recfile"), (req, res) => {
+  console.log("req body", req.body);
+  console.log("req file", req.file);
+  if (req.file.fieldname) {
+    res.status(200).json({ success: true, data: req.file.filename });
+  } else {
+    res.json({ success: false });
+  }
+});
+
+app.use(
+  express.static(path.join(__dirname, "./public"), {
+    maxAge: 24 * 60 * 60 * 1000 * 7,
+  })
+);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 // app.use(cookieParser());

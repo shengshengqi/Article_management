@@ -1,10 +1,10 @@
 import axios from "axios";
 
 // export default service;
-axios.defaults.baseURL = "http://localhost:3001";
+const baseUrl = "http://localhost:3001";
+axios.defaults.baseURL = baseUrl;
 // axios.defaults.headers.common["Authorization"] = AUTH_TOKEN;
-axios.defaults.headers.post["Content-Type"] =
-  "application/x-www-form-urlencoded";
+axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 
 // 封装GET请求
 function get(url, params) {
@@ -32,7 +32,15 @@ function post(url, params) {
     });
 }
 
+export const upload = function (url, formdata) {
+  return fetch(baseUrl + "/upload", {
+    method: "POST",
+    body: formdata,
+  }).then((res) => res.json());
+};
+
 export default {
   get,
   post,
+  upload,
 };

@@ -1,5 +1,6 @@
-import { Button } from "antd";
+import { Button, message } from "antd";
 import React, { createElement, useEffect, useRef } from "react";
+import { upload } from "../axios";
 
 export default () => {
   const canvasDom = useRef<any>();
@@ -42,11 +43,41 @@ export default () => {
     });
   };
 
-  const getPhotoBlob = () => {
-    canvasDom.current.toBlob((blob: Blob) => {
-      console.log(blob);
+  const getPhotoBlob = (): Promise<Blob> => {
+    return new Promise((resolve, reject) => {
+      canvasDom.current.toBlob((blob: Blob) => {
+        resolve(
+          new File([blob], Date.now() + ".png", {
+            type: blob.type,
+          })
+        );
+      });
     });
   };
+
+  const uploadImageBlob = async (imageBlob: Blob) => {
+    const formData = new FormData();
+
+    formData.append("recfile", imageBlob);
+
+    const { data, success } = await upload("/upload", formData);
+
+    if (success) {
+      message.info("上传成功");
+    } else {
+      message.info("上传失败");
+    }
+  };
+
+  const doScan = async () => {
+    try {
+      const blob = await getPhotoBlob();
+      uploadImageBlob(blob);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     const canvas = canvasDom.current as HTMLCanvasElement;
     const context = canvas.getContext("2d");
@@ -81,7 +112,7 @@ export default () => {
           width: "100vw",
         }}
       />
-      <Button onClick={getPhotoBlob}>扫描</Button>
+      <Button onClick={doScan}>扫描</Button>
     </div>
   );
 };
