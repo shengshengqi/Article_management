@@ -10,6 +10,8 @@ var usersRouter = require("./routes/users");
 var imageRouter = require("./routes/images");
 var articleRouter = require("./routes/articles");
 
+require("./conf/mysql");
+
 var app = express();
 app.all("*", function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -26,6 +28,7 @@ app.all("*", function (req, res, next) {
 //让页面变成ejs模板,这个要看前端页面用什么，到时候不能忘了改啊
 // app.set("views", path.join(__dirname, "views"));
 // app.set("view engine", "ejs");
+app.set("view engine", "html");
 
 // app.use(logger("dev"));
 const multer = require("multer");
@@ -82,7 +85,11 @@ app.use(function (err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render("error");
+  console.log(err);
+  res.send({
+    success: false,
+    data: err,
+  });
 });
 
 app.listen(port, () => {

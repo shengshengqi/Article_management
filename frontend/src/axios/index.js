@@ -1,13 +1,14 @@
 import axios from "axios";
 
 // export default service;
-const baseUrl = "http://localhost:3001";
+export const baseUrl = "http://localhost:3001";
+
 axios.defaults.baseURL = baseUrl;
 // axios.defaults.headers.common["Authorization"] = AUTH_TOKEN;
 axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 
 // 封装GET请求
-function get(url, params) {
+export function get(url, params) {
   return axios
     .get(url, { params })
     .then((res) => {
@@ -18,12 +19,10 @@ function get(url, params) {
     });
 }
 // 封装POST请求
-function post(url, params) {
+export function post(url, params) {
+  console.log("post", url, params);
   return axios
-    .post({
-      url,
-      data: params,
-    })
+    .post(url, params)
     .then((res) => {
       return res;
     })

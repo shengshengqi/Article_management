@@ -14,13 +14,15 @@ class Admin extends React.Component {
   };
 
   componentDidMount() {
+    this.loadData();
+  }
+
+  loadData() {
     const item = localStorage.getItem("userData");
     if (item !== null) {
-      request
-        .get(conf.article_list, { id: JSON.parse(item).uid })
-        .then((res: any) => {
-          this.setState({ data: res.data });
-        });
+      request.get(conf.article_list, { id: JSON.parse(item).uid }).then((res: any) => {
+        this.setState({ data: res.data });
+      });
     } else {
       alert("请先登录");
     }
@@ -43,7 +45,11 @@ class Admin extends React.Component {
               {
                 <div>
                   <b style={{ marginRight: 20 }}>我的文章</b>
-                  <Upload />
+                  <Upload
+                    onSuccess={() => {
+                      this.loadData();
+                    }}
+                  />
                 </div>
               }
             </b>
