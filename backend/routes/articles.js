@@ -14,7 +14,7 @@ router.post("/uploding_article", function (req, res) {
       '","' +
       req.body.uid +
       '","' +
-      `临时名称${Date.now()}` +
+      req.body.articleName +
       '")',
     function (err, result) {
       if (err) {
@@ -30,13 +30,11 @@ router.post("/uploding_article", function (req, res) {
 
 //删除文章
 router.get("/delete_article", function (req, res) {
-  sql.query('DELETE FROM Articles WHERE id="' + req.query.id + '"', function (err, result) {
+  sql.query('DELETE FROM Articles WHERE articleId="' + req.query.id + '"', function (err, result) {
     if (err) {
       res.send("文章删除失败");
     } else {
-      res.send({
-        code: 200,
-      });
+      res.send("SUCCESS");
     }
   });
 });

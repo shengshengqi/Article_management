@@ -1,15 +1,13 @@
 import React from "react";
 import { Button } from "antd";
-// import Card from "../components/Card";
-import { List } from "antd";
 import Upload from "../components/Upload";
 import request from "../axios/index";
 import { conf } from "../axios/conf";
+import List from "../components/List";
 import "./Admin.css";
 
 class Admin extends React.Component {
   state = {
-    current: "",
     data: [],
   };
 
@@ -28,44 +26,37 @@ class Admin extends React.Component {
     }
   }
 
-  handleClick = (e: any) => {
-    console.log("click ", e);
-    this.setState({ current: e.key });
+  onDelete = (id: Number) => {
+    request.get(conf.delete_article, { id: id }).then((res: any) => {
+      if (res.data !== "SUCCESS") {
+        alert(res.data);
+      } else {
+        this.loadData();
+      }
+    });
+  };
+
+  header = () => {
+    return (
+      <b>
+        {
+          <div>
+            <b style={{ marginRight: 20 }}>我的文章</b>
+            <Upload
+              onSuccess={() => {
+                this.loadData();
+              }}
+            />
+          </div>
+        }
+      </b>
+    );
   };
 
   render() {
     return (
       <div className="admin-container">
-        <List
-          className="card-list"
-          itemLayout="horizontal"
-          dataSource={this.state.data}
-          header={
-            <b>
-              {
-                <div>
-                  <b style={{ marginRight: 20 }}>我的文章</b>
-                  <Upload
-                    onSuccess={() => {
-                      this.loadData();
-                    }}
-                  />
-                </div>
-              }
-            </b>
-          }
-          renderItem={(item: any) => (
-            <List.Item actions={[<Button>删除</Button>]}>
-              <List.Item.Meta
-                title={
-                  <a href={item.address} target="_blank">
-                    {item.articleName}
-                  </a>
-                }
-              />
-            </List.Item>
-          )}
-        />
+        <List data={this.state.data} header={this.header()} onDelete={this.onDelete} />
       </div>
     );
   }

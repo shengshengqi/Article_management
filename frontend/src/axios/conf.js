@@ -7,4 +7,5 @@ export const conf = {
   find_article: "/articles/find_article",
   delete_article: "/articles/delete_article",
   article_list: "/articles/list",
+  find_article_by_imageName: "/images//find_article_by_imageName",
 };

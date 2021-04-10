@@ -2,17 +2,16 @@ import React, { useState, useRef } from "react";
 import { Form, Modal, Button, Upload, message } from "antd";
 import { UploadOutlined, PlusOutlined } from "@ant-design/icons";
 import "./Upload.css";
-import { baseUrl, upload, get, post } from "../axios";
+import request from "../axios";
 import { conf } from "../axios/conf";
 
 const uploadProps = {
   name: "file",
   // action: `${baseUrl}/upload`,
   customRequest: async (obj: any) => {
-    console.log(obj);
     const formdata = new FormData();
     formdata.append("recfile", obj.file);
-    const res = await upload("/upload", formdata);
+    const res = await request.upload("/upload", formdata);
     if (res.data) {
       obj.onSuccess(res);
     } else {
@@ -22,16 +21,6 @@ const uploadProps = {
   headers: {
     authorization: "authorization-text",
   },
-  // onChange(info: any) {
-  //   if (info.file.status !== "uploading") {
-  //     console.log(info.file, info.fileList);
-  //   }
-  //   if (info.file.status === "done") {
-  //     message.success(`${info.file.name} file uploaded successfully`);
-  //   } else if (info.file.status === "error") {
-  //     message.error(`${info.file.name} file upload failed.`);
-  //   }
-  // },
 };
 
 function NUpload(props: any) {
@@ -69,22 +58,20 @@ function NUpload(props: any) {
       article: (val?.article?.fileList || []).map((item: any) => item?.response?.data),
     };
 
-    const res: any = await get(conf.uploding_image, {
+    const res: any = await request.get(conf.uploding_image, {
       imageName: submitData.picture,
     });
-    console.log(res);
     if (String(res.data?.code) !== "200") {
       message.error("图片上传失败");
     }
     const uid = getUid();
-    console.log("uid", uid, res.data?.id);
     await Promise.all(
-      submitData.article.map((item: any) => {
-        console.log("here", item);
-        return post(conf.uploding_article, {
+      submitData.article.map((item: string) => {
+        return request.post(conf.uploding_article, {
           address: item,
           uid,
           imageId: res.data?.id,
+          articleName: item.split(".")[0].split("-")[1],
         });
       })
     );
@@ -95,15 +82,8 @@ function NUpload(props: any) {
   return (
     <>
       <Button icon={<PlusOutlined />} onClick={showModal} shape="circle"></Button>
-      <Modal title="上传新的文章" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-        <Form
-          onFinish={doCreate}
-          ref={form}
-          {...{ labelCol: { span: 8 }, wrapperCol: { span: 16 } }}
-          onSubmitCapture={(...res) => {
-            console.log(res);
-          }}
-        >
+      <Modal title="上传新的文章" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} destroyOnClose>
+        <Form onFinish={doCreate} ref={form} {...{ labelCol: { span: 8 }, wrapperCol: { span: 16 } }}>
           <Form.Item label="上传图片" name="picture" rules={[{ required: true, message: "图片是必须上传的哦" }]}>
             <Upload {...{ ...uploadProps, maxCount: 1 }}>
               <Button icon={<UploadOutlined />}>Click to Upload image</Button>

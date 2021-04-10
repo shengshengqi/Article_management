@@ -8,7 +8,7 @@ axios.defaults.baseURL = baseUrl;
 axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 
 // 封装GET请求
-export function get(url, params) {
+function get(url, params) {
   return axios
     .get(url, { params })
     .then((res) => {
@@ -19,7 +19,7 @@ export function get(url, params) {
     });
 }
 // 封装POST请求
-export function post(url, params) {
+function post(url, params) {
   console.log("post", url, params);
   return axios
     .post(url, params)
@@ -31,7 +31,7 @@ export function post(url, params) {
     });
 }
 
-export const upload = function (url, formdata) {
+const upload = function (url, formdata) {
   return fetch(baseUrl + "/upload", {
     method: "POST",
     body: formdata,

@@ -1,6 +1,6 @@
+import React, { useEffect, useRef } from "react";
 import { Button, message } from "antd";
-import React, { createElement, useEffect, useRef } from "react";
-import { upload } from "../axios";
+import request from "../axios";
 
 export default () => {
   const canvasDom = useRef<any>();
@@ -26,7 +26,6 @@ export default () => {
     // document.body.appendChild(videoDom);
 
     videoDom.addEventListener("canplay", () => {
-      console.log(videoDom.videoHeight, videoDom.videoWidth);
       videoDom.setAttribute("width", "" + videoDom.videoWidth);
       videoDom.setAttribute("height", "" + videoDom.videoHeight);
       canvasDom.current.setAttribute("width", "" + videoDom.videoWidth);
@@ -60,7 +59,7 @@ export default () => {
 
     formData.append("recfile", imageBlob);
 
-    const { data, success } = await upload("/upload", formData);
+    const { success } = await request.upload("/upload", formData);
 
     if (success) {
       message.info("上传成功");

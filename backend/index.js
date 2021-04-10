@@ -34,11 +34,7 @@ app.set("view engine", "html");
 const multer = require("multer");
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    if (file.mimetype.indexOf("image") >= 0) {
-      cb(null, "./public/");
-    } else {
-      cb(null, "./uploads/");
-    }
+    cb(null, "./public/");
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + "-" + file.originalname);

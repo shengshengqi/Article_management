@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Form, Modal, Tabs } from "antd";
 import "./index.css";
 import Register from "./Register";
@@ -16,7 +16,6 @@ const data = (function () {
     return item;
   }
 })();
-console.log(data);
 
 const getAdmin = () => {
   if (data !== null) {
@@ -95,7 +94,7 @@ function RLogin() {
             alert(res.data);
           }
         })
-        .catch((err) => {
+        .catch((err: any) => {
           console.log(err);
         });
   };

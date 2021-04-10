@@ -1,15 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Home.css";
 import { Button, Input } from "antd";
 import Login from "../components/RegisterAndLogin/index";
 import { ScanOutlined } from "@ant-design/icons";
+import request from "../axios";
+import { conf } from "../axios/conf";
+import List from "../components/List";
 
 const { Search } = Input;
 
-const onSearch = (value: any) => console.log(value);
-
 function Home() {
-  const goToScan = () => {};
+  const [isSearchData, setIsSearchData] = useState([]);
+  const loadData = (name: any) => {
+    const item = localStorage.getItem("userData");
+    if (item !== null) {
+      request.get(conf.find_article_by_imageName, { imageName: name }).then(({ data: res = {} }: any) => {
+        if (res.data) {
+          setIsSearchData(res.data);
+        }
+      });
+    } else {
+      alert("查询失败");
+    }
+  };
+  const onSearch = (value: any) => {
+    console.log(value);
+    loadData(value);
+  };
   return (
     <div className="container">
       <div className="home-container">
@@ -28,26 +45,13 @@ function Home() {
             }}
           />
           <a rel="noopener noreferrer" href="/camera">
-            <Button onClick={goToScan}>
+            <Button>
               <ScanOutlined />
             </Button>
           </a>
         </div>
+        {isSearchData.length > 0 && <List data={isSearchData} />}
       </div>
-
-      {/* <div className="site-card-wrapper home-card">
-        <Row gutter={16}>
-          <Col span={8}>
-            <Card title="最新消息" data={data}></Card>
-          </Col>
-          <Col span={8}>
-            <Card title="精品推荐" data={data}></Card>
-          </Col>
-          <Col span={8}>
-            <Card title="专题知识库" data={data}></Card>
-          </Col>
-        </Row>
-      </div> */}
     </div>
   );
 }
